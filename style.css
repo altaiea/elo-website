@@ -29,6 +29,7 @@ td {
     padding: 12px;
     border-bottom: 1px solid #eee;
     font-size: 14px;
+    transition: 0.2s ease;
 }
 
 tr:hover {
@@ -43,6 +44,15 @@ tr:hover {
 .bad {
     color: #e74c3c;
     font-weight: bold;
+}
+
+/* Hover glow */
+.good:hover {
+    background: rgba(46, 204, 113, 0.15);
+}
+
+.bad:hover {
+    background: rgba(231, 76, 60, 0.15);
 }
 
 .clickable {
@@ -61,7 +71,7 @@ tr:hover {
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     z-index: 1000;
-    width: 300px;
+    width: 320px;
 }
 
 .hidden {
@@ -75,6 +85,7 @@ tr:hover {
 .popup p {
     margin: 6px 0;
 }
+
 
 
 

@@ -1,16 +1,422 @@
 {
-  "1": { "name": "Nesar", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 },
-  "2": { "name": "Kal", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 },
-  "3": { "name": "Bilal", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 },
-  "4": { "name": "Eesa", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 },
-  "5": { "name": "Abdul", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 },
-  "6": { "name": "Akeeb", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 },
-  "7": { "name": "Usmaan", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 },
-  "8": { "name": "Amaan", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 },
-  "9": { "name": "Parvez", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 },
-  "10": { "name": "Hazza", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 },
-  "11": { "name": "Haideri", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 },
-  "12": { "name": "Nabeel", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 },
-  "13": { "name": "Safy", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 },
-  "14": { "name": "Unknown_14", "elo": 1000, "lifetimeKills": 0, "lifetimeDeaths": 0, "wins": 0, "losses": 0, "averageMargin": 0, "hpWins": 0, "hpLosses": 0, "sndWins": 0, "sndLosses": 0, "ovrWins": 0, "ovrLosses": 0 }
+  "1": {
+    "name": "Nesar",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  },
+
+  "2": {
+    "name": "Kal",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  },
+
+  "3": {
+    "name": "Bilal",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  },
+
+  "4": {
+    "name": "Eesa",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  },
+
+  "5": {
+    "name": "Abdul",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  },
+
+  "6": {
+    "name": "Akeeb",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  },
+
+  "7": {
+    "name": "Usmaan",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  },
+
+  "8": {
+    "name": "Amaan",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  },
+
+  "9": {
+    "name": "Parvez",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  },
+
+  "10": {
+    "name": "Hazza",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  },
+
+  "11": {
+    "name": "Haideri",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  },
+
+  "12": {
+    "name": "Nabeel",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  },
+
+  "13": {
+    "name": "Safy",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  },
+
+  "14": {
+    "name": "Unknown_14",
+    "elo": 1000.00,
+    "lifetimeKills": 0,
+    "lifetimeDeaths": 0,
+    "mapKills": 0,
+    "mapDeaths": 0,
+
+    "hpKills": 0,
+    "hpDeaths": 0,
+    "sndKills": 0,
+    "sndDeaths": 0,
+    "overloadKills": 0,
+    "overloadDeaths": 0,
+
+    "hpWins": 0,
+    "hpLosses": 0,
+    "sndWins": 0,
+    "sndLosses": 0,
+    "overloadWins": 0,
+    "overloadLosses": 0,
+
+    "hpMarginTotal": 0.00,
+    "hpMarginCount": 0,
+    "sndMarginTotal": 0.00,
+    "sndMarginCount": 0,
+    "overloadMarginTotal": 0.00,
+    "overloadMarginCount": 0
+  }
 }
+
