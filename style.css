@@ -36,13 +36,45 @@ tr:hover {
 }
 
 .good {
-    color: #2ecc71; /* green */
+    color: #2ecc71;
     font-weight: bold;
 }
 
 .bad {
-    color: #e74c3c; /* red */
+    color: #e74c3c;
     font-weight: bold;
 }
+
+.clickable {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Popup */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1000;
+    width: 300px;
+}
+
+.hidden {
+    display: none;
+}
+
+.popup h3 {
+    margin-top: 0;
+}
+
+.popup p {
+    margin: 6px 0;
+}
+
 
 
