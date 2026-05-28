@@ -1,36 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Elo Leaderboard</title>
+    <meta charset="UTF-8">
+    <title>4v4 Ratings</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<h1>Elo Leaderboard</h1>
+<h1 class="title">BO7 RANKINGS</h1>
 
-<table id="leaderboard">
-    <thead>
+<div class="table-container">
+    <table id="leaderboard">
+        <thead>
         <tr>
             <th>#</th>
             <th>Player</th>
             <th>Elo</th>
-            <th>K/D</th>
             <th>Wins</th>
             <th>Losses</th>
-            <th>Avg Margin</th>
+            <th>Win Margin</th>
+            <th>K/D</th>
         </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
 
-<!-- Popup -->
+<!-- POPUP (unchanged) -->
 <div id="popup" class="popup hidden">
     <div id="popup-content"></div>
+</div>
+
+<!-- CDL HOVER CARD -->
+<div id="playerCard" class="player-card hidden">
+
+    <!-- CDL Banner Number -->
+    <div class="rating-banner" id="ratingBanner">
+        <img src="banner1.png" class="banner-img">
+        <span id="cardOVR">92</span>
+    </div>
+
+    <!-- Operator Image -->
+    <div class="card-image">
+        <img src="operator.png" alt="Operator">
+    </div>
+
+    <!-- Player Name -->
+    <div class="card-name" id="cardName">PLAYER NAME</div>
+
+    <!-- HARDPOINT -->
+    <div class="card-section">
+        <div class="section-title">HARDPOINT</div>
+        <div class="section-row"><span>KD:</span><span id="hpKD">1.00</span></div>
+        <div class="section-row"><span>Margin:</span><span id="hpMargin">0.0</span></div>
+        <div class="section-row"><span>Rating:</span><span id="hpRating">60</span></div>
+    </div>
+
+    <!-- SEARCH & DESTROY -->
+    <div class="card-section">
+        <div class="section-title">SEARCH & DESTROY</div>
+        <div class="section-row"><span>KD:</span><span id="sndKD">1.00</span></div>
+        <div class="section-row"><span>Margin:</span><span id="sndMargin">0.0</span></div>
+        <div class="section-row"><span>Rating:</span><span id="sndRating">60</span></div>
+    </div>
+
+    <!-- OVERLOAD -->
+    <div class="card-section">
+        <div class="section-title">OVERLOAD</div>
+        <div class="section-row"><span>KD:</span><span id="ovlKD">1.00</span></div>
+        <div class="section-row"><span>Margin:</span><span id="ovlMargin">0.0</span></div>
+        <div class="section-row"><span>Rating:</span><span id="ovlRating">60</span></div>
+    </div>
+
 </div>
 
 <script src="script.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
