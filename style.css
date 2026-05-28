@@ -195,8 +195,8 @@ tr:hover {
 
 .rating-banner span {
     position: absolute;
-    top: 14px;        /* slightly up */
-    left: 50%;
+    top: 12px;        /* slightly up */
+    left: 48%;
     transform: translateX(-50%);
 
     font-size: 22px;
