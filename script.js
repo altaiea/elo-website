@@ -251,11 +251,21 @@ fetch("stats.json")
             card.classList.add("hidden");
         }
 
-        document.querySelectorAll(".player-hover").forEach(cell => {
-            cell.addEventListener("mouseenter", () => showCard(cell.dataset.id));
-            cell.addEventListener("mouseleave", hideCard);
-        });
+      document.querySelectorAll(".player-hover").forEach(cell => {
+    cell.addEventListener("click", () => {
+        const id = cell.dataset.id;
+
+        // If card is already showing this player → hide it
+        if (!card.classList.contains("hidden") &&
+            document.getElementById("cardName").textContent === cell.textContent) {
+            hideCard();
+            return;
+        }
+
+        // Otherwise show the card for this player
+        showCard(id);
     });
+});
 
 
 
