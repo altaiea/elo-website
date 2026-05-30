@@ -1,351 +1,293 @@
-/* --------------------------------------------- */
-/* TABLE + PAGE STYLING                          */
-/* --------------------------------------------- */
-
-.title{
-    margin-top:-15px;
-}
-th,td{
-    text-align:center;
-}
+/* === ESPORTS THEME === */
 
 body {
-    font-family: 'Inter', sans-serif;
-    background: #0f0f0f;
-    padding: 30px;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #0d0d0f;
+    padding: 40px;
     color: #e6e6e6;
 }
 
-.title {
+h1 {
     text-align: center;
-    color: #ff7a00;
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    font-size: 42px;
+    font-weight: 800;
     letter-spacing: 2px;
+    color: #ffffff;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
 }
 
-.table-container {
-    background: #1a1a1a;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.4);
-}
-
+/* TABLE */
 table {
-    width: 100%;
+    width: 95%;
+    margin: 0 auto;
     border-collapse: collapse;
-    table-layout:fixed;
+    background: #15151a;
+    border: 1px solid #222;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.08);
 }
 
 th {
-    background: #222;
-    padding: 14px;
+    padding: 14px 12px;
+    background: linear-gradient(90deg, #111, #1a1a1f);
+    color: #00eaff;
     font-size: 14px;
+    font-weight: 700;
+    border-bottom: 2px solid #00eaff;
     text-transform: uppercase;
-    color: #ff7a00;
-    letter-spacing: 1px;
 }
 
 td {
-    padding: 14px;
-    border-bottom: 1px solid #333;
-    font-size: 15px;
+    padding: 12px 10px;
+    text-align: center;
+    border-bottom: 1px solid #1f1f25;
+    font-size: 14px;
+    color: #dcdcdc;
 }
 
 tr:hover {
-    background: #262626;
+    background: rgba(0, 255, 255, 0.08);
+    transition: 0.15s;
 }
 
-/* GOLD ELO */
-.elo-gold {
-    color: #f1c40f;
-    font-weight: 700;
-}
-
-/* GOOD / BAD COLORS */
-.good {
-    color: #2ecc71;
-    font-weight: 600;
-}
-
-.bad {
-    color: #e74c3c;
-    font-weight: 600;
-}
-
-/* POPUP */
-.popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #1a1a1a;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.5);
-    z-index: 1000;
-    width: 340px;
-    color: #e6e6e6;
-}
-
-.hidden {
-    display: none;
-}
-
-.popup h3 {
-    margin-top: 0;
-    color: #ff7a00;
-}
-
-.popup p {
-    margin: 8px 0;
-}
-
-.clickable {
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-/* ------------------------------------------------ */
-/* MINI CDL HOVER CARD — CENTERED ABOVE MIDDLE      */
-/* ------------------------------------------------ */
-
-.player-card {
-    width: 190px;
-    position: fixed !important;
-
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%, -50%);
-
-    background: linear-gradient(180deg, #3b1d5a, #1a0f2e);
-    padding: 12px;
-    border-radius: 10px;
-    color: white;
-    font-family: 'Inter', sans-serif;
-    box-shadow: 0 0 18px rgba(181, 122, 255, 0.45);
-    opacity: 1;
-    transition: opacity 0.25s ease;
-    z-index: 999999;
-}
-
-.player-card.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.card-name {
-    text-align: center;
-    margin: 6px 0;
-    font-size: 15px;
-    font-weight: bold;
+.rank {
+    font-weight: 900;
     color: #ffffff;
 }
 
-.card-section {
-    background: rgba(0, 0, 0, 0.35);
-    padding: 7px;
-    margin-top: 8px;
-    border-radius: 6px;
+tr:nth-child(1) .rank { color: #ffd700; text-shadow: 0 0 10px gold; }
+tr:nth-child(2) .rank { color: #c0c0c0; text-shadow: 0 0 10px silver; }
+tr:nth-child(3) .rank { color: #cd7f32; text-shadow: 0 0 10px #cd7f32; }
+
+/* CLICKABLE PLAYER NAME */
+.player-name {
+    color: #00eaff;
+    cursor: pointer;
+    font-weight: 700;
+}
+.player-name:hover {
+    text-shadow: 0 0 10px #00eaff;
 }
 
-.section-title {
-    font-size: 12px;
-    font-weight: bold;
-    color: #b57aff;
-    margin-bottom: 4px;
-}
-
-.section-row {
+/* SMALL TOGGLE SWITCH */
+.toggle-container {
+    width: 95%;
+    margin: 0 auto 20px auto;
     display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: #e8e8e8;
+    align-items: center;
+    gap: 12px;
+    color: #e6e6e6;
+    font-size: 16px;
 }
 
-/* ------------------------------------------------ */
-/* TOP-LEFT MINI BANNER (PNG VERSION)               */
-/* ------------------------------------------------ */
-
-.rating-banner {
-    position: absolute;
-    top: -2px;      /* between first and second placement */
-    left: -3px;     /* nudged slightly inside */
-
-    width: 70px;
-    height: auto;
-    z-index: 8;
-}
-
-.rating-banner img {
-    width: 100%;
-    height: auto;
-    display: block;
-
-    /* Purple glowing border */
-    box-shadow:
-            0 0 12px rgba(181, 122, 255, 0.9),
-            0 0 22px rgba(181, 122, 255, 0.6),
-            inset 0 0 12px rgba(181, 122, 255, 0.5);
-
-    border-radius: 6px;
-    filter: drop-shadow(0 0 14px rgba(180, 90, 255, 0.9));
-}
-
-.rating-banner span {
-    position: absolute;
-    top: 12px;        /* slightly up */
-    left: 48%;
-    transform: translateX(-50%);
-
-    font-size: 22px;
-    font-weight: 900;
-    /* no fixed colour here so rating-* classes can control it */
-    text-shadow: 0 0 8px rgba(181,122,255,0.9);
-    z-index: 10;
-}
-
-/* Rating colours (used by JS on #cardOVR) */
-.rating-red { color: rgb(221 26 6 / 0.72); }
-.rating-yellow { color: #efd73a; }
-.rating-green { color: #11c104; }
-.rating-legendary { color: #b57aff; }
-
-/* ------------------------------------------------ */
-/* MINI OPERATOR IMAGE + AURA                       */
-/* ------------------------------------------------ */
-
-.card-image {
+.switch {
     position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+    display: inline-block;
 }
 
-.card-image img {
-    max-height: 130px;
-    width: auto;
-    display: block;
-    z-index: 3;
-
-    border-radius: 12px;
-
-    mask-image: linear-gradient(
-            to bottom,
-            rgba(0,0,0,1) 60%,
-            rgba(0,0,0,0.6) 80%,
-            rgba(0,0,0,0) 100%
-    );
-
-    filter: drop-shadow(0 0 14px rgba(180, 90, 255, 0.9));
+.small-switch {
+    width: 36px;
+    height: 18px;
 }
 
-.card-image::before {
-    content: "";
+.switch input {
+    display: none;
+}
+
+.slider {
     position: absolute;
-    top: -12px;
+    cursor: pointer;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    background-color: #444;
+    transition: .3s;
+}
+
+.small-slider {
+    border-radius: 18px;
+}
+
+.small-slider:before {
+    position: absolute;
+    content: "";
+    height: 14px; width: 14px;
+    left: 2px; bottom: 2px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .small-slider {
+    background-color: #00eaff;
+}
+
+input:checked + .small-slider:before {
+    transform: translateX(18px);
+}
+
+.toggle-label {
+    font-weight: 600;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    background: #1a1a20;
+    margin: 8% auto;
+    padding: 20px;
+    height:400px;
+    width: 250px;
+    max-width: 420px;
+    border: 2px solid #00eaff;
+    box-shadow: 0 0 20px rgba(0,255,255,0.4);
+    border-radius: 6px;
+    position: relative; /* important for scaled content */
+}
+
+.close {
+    float: right;
+    font-size: 28px;
+    cursor: pointer;
+    color: #fff;
+}
+.close:hover {
+    color: #00eaff;
+}
+
+/* W/L DROPDOWN */
+.wl-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.wl-arrow {
+    margin-left: 6px;
+    font-size: 10px;
+    color: #00eaff;
+}
+
+.wl-dropdown {
+    display: none;
+    position: absolute;
+    top: 22px;
     left: 50%;
     transform: translateX(-50%);
-    width: 150px;
-    height: 180px;
-
-    background: radial-gradient(
-            circle,
-            rgba(180, 90, 255, 0.55) 0%,
-            rgba(120, 0, 255, 0.35) 25%,
-            rgba(80, 0, 160, 0.15) 55%,
-            rgba(0, 0, 0, 0) 80%
-    );
-
-    filter: blur(22px);
-    opacity: 0.55;
-    animation: purpleFire 2.8s infinite ease-in-out;
-    z-index: 1;
+    background: #111;
+    padding: 6px 10px;
+    border: 1px solid #00eaff;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 20;
+    box-shadow: 0 0 10px rgba(0,255,255,0.3);
 }
 
-@keyframes purpleFire {
-    0% { opacity: 0.45; transform: scale(1); }
-    40% { opacity: 0.75; transform: scale(1.1); }
-    100% { opacity: 0.45; transform: scale(1); }
+.wl-win {
+    color: #7CFF8A;
+    font-weight: 700;
 }
 
-.card-image::after {
-    content: "";
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    width: 4px;
-    height: 4px;
-    background: rgba(200, 120, 255, 0.9);
-    border-radius: 50%;
-    animation: embers 3s infinite ease-in-out;
-    z-index: 2;
+.wl-loss {
+    color: #FF6B6B;
+    font-weight: 700;
 }
 
-@keyframes embers {
-    0% { opacity: 0; transform: translate(-50%, 0) scale(0.4); }
-    40% { opacity: 0.8; transform: translate(-50%, -20px) scale(1); }
-    100% { opacity: 0; transform: translate(-50%, -40px) scale(0.4); }
+/* ============================================
+   CDL PLAYER CARD (NEW)
+============================================ */
+
+.cdl-card {
+    background: linear-gradient(145deg, #1a1a20, #0f0f12);
+    border: 2px solid #00eaff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 25px rgba(0,255,255,0.25);
+    text-align: center;
 }
 
-.player-card::before {
-    content: "";
+.cdl-overall {
+    font-size: 54px;
+    font-weight: 900;
+    color: #00eaff;
+    text-shadow: 0 0 20px rgba(0,255,255,0.7);
+    margin-bottom: 10px;
+}
+
+.cdl-name {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.cdl-mode {
+    background: #111;
+    border-left: 4px solid #00eaff;
+    padding: 12px;
+    margin-bottom: 14px;
+    border-radius: 6px;
+}
+
+.cdl-mode h3 {
+    margin: 0 0 8px 0;
+    color: #00eaff;
+}
+
+.cdl-rating {
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 6px;
+    color: #ffffff;
+}
+
+.cdl-stat {
+    font-size: 14px;
+    margin: 3px 0;
+    color: #dcdcdc;
+}
+
+.cdl-totals {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #00eaff;
+}
+
+.cdl-totals p {
+    margin: 6px 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* ============================================
+   SHRINK FRONT CONTENT TO FIT CARD
+============================================ */
+
+.card-contents-wrapper {
+    transform: scale(0.55);
+    transform-origin: top left;
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('lightning.png');
-    background-size: cover;
-    opacity: 0.06;
-    mix-blend-mode: screen;
-    animation: lightningFlash 4s infinite ease-in-out;
-    pointer-events: none;
 }
 
-@keyframes lightningFlash {
-    0%, 90% { opacity: 0.04; }
-    92% { opacity: 0.18; }
-    100% { opacity: 0.04; }
+.cdl-totals {
+    height: 60px;          /* keep the block visible */
+    border-top: 1px solid #00eaff;
+    margin-top: 25px;
+    padding-top: 10px;
 }
 
-.player-card::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-            0deg,
-            rgba(255,255,255,0.03) 0px,
-            rgba(255,255,255,0.03) 2px,
-            rgba(255,255,255,0) 4px
-    );
-    opacity: 0.12;
-    animation: heatWave 6s infinite linear;
-    pointer-events: none;
+.cdl-totals p {
+    display: none;         /* hide the text only */
 }
-
-@keyframes heatWave {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-10px); }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -2,91 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <meta name="robots" content="noindex, nofollow">
-    <title>4v4 Ratings</title>
+    <title>Elo Leaderboard</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<h1 class="title">BO7 RANKINGS</h1>
+<h1>RANKINGS</h1>
 
-<div class="table-container">
-    <table id="leaderboard">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Player</th>
-            <th>Elo</th>
-            <th>Wins</th>
-            <th>Losses</th>
-            <th>Win Margin</th>
-            <th>K/D</th>
-        </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+<!-- Toggle -->
+<div class="toggle-container">
+    <label class="switch small-switch">
+        <input type="checkbox" id="toggleInactive">
+        <span class="slider small-slider"></span>
+    </label>
+    <span class="toggle-label">Show Inactive Players</span>
 </div>
 
-<!-- POPUP (unchanged) -->
-<div id="popup" class="popup hidden">
-    <div id="popup-content"></div>
-</div>
+<!-- Leaderboard -->
+<table id="leaderboard">
+    <thead>
+    <tr>
+        <th>Rank</th>
+        <th>Player</th>
+        <th>Elo</th>
+        <th>W/L</th>
+        <th>TOTAL K/D</th>
+    </tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+</table>
 
-<!-- CDL HOVER CARD -->
-<div id="playerCard" class="player-card hidden">
+<!-- Player Details Modal -->
+<div id="playerModal" class="modal">
+    <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
 
-    <!-- CDL Banner Number -->
-    <div class="rating-banner" id="ratingBanner">
-        <img src="banner1.png" class="banner-img">
-        <span id="cardOVR">92</span>
+        <!-- ⭐ NEW WRAPPER FOR SHRINKING CONTENT ⭐ -->
+        <div class="card-contents-wrapper">
+            <div id="cdlCard"></div>
+        </div>
+
     </div>
-
-    <!-- Operator Image -->
-    <div class="card-image">
-        <img src="operator.png" alt="Operator">
-    </div>
-
-    <!-- Player Name -->
-    <div class="card-name" id="cardName">PLAYER NAME</div>
-
-    <!-- HARDPOINT -->
-    <div class="card-section">
-        <div class="section-title">HARDPOINT</div>
-        <div class="section-row"><span>KD:</span><span id="hpKD">1.00</span></div>
-        <div class="section-row"><span>Margin:</span><span id="hpMargin">0.0</span></div>
-        <div class="section-row"><span>Rating:</span><span id="hpRating">60</span></div>
-    </div>
-
-    <!-- SEARCH & DESTROY -->
-    <div class="card-section">
-        <div class="section-title">SEARCH & DESTROY</div>
-        <div class="section-row"><span>KD:</span><span id="sndKD">1.00</span></div>
-        <div class="section-row"><span>Margin:</span><span id="sndMargin">0.0</span></div>
-        <div class="section-row"><span>Rating:</span><span id="sndRating">60</span></div>
-    </div>
-
-    <!-- OVERLOAD -->
-    <div class="card-section">
-        <div class="section-title">OVERLOAD</div>
-        <div class="section-row"><span>KD:</span><span id="ovlKD">1.00</span></div>
-        <div class="section-row"><span>Margin:</span><span id="ovlMargin">0.0</span></div>
-        <div class="section-row"><span>Rating:</span><span id="ovlRating">60</span></div>
-    </div>
-
 </div>
 
 <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
 
 
 

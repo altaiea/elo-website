@@ -1,270 +1,247 @@
+let allPlayers = [];
+let showInactive = false;
+
+// Fetch stats
 fetch("stats.json")
     .then(res => res.json())
     .then(data => {
+        allPlayers = Object.entries(data.players).map(([id, stats]) => ({
+            id: Number(id),
+            name: getPlayerName(id),
+            ...stats
+        }));
 
-        /* ------------------------------------------------------ */
-        /* 1. PREPARE PLAYER LIST                                 */
-        /* ------------------------------------------------------ */
+        renderTable();
+        setupToggle();
+    });
 
-        const players = Object.entries(data);
+function setupToggle() {
+    const toggle = document.getElementById("toggleInactive");
+    toggle.addEventListener("change", () => {
+        showInactive = toggle.checked;
+        renderTable();
+    });
+}
 
-        // Sort by Elo
-        players.sort((a, b) => b[1].elo - a[1].elo);
+function renderTable() {
+    const tbody = document.getElementById("table-body");
+    tbody.innerHTML = "";
 
-        const tbody = document.querySelector("#leaderboard tbody");
-        let rank = 1;
+    const filtered = allPlayers.filter(p => {
+        const wins = p.hpWins + p.sndWins + p.overloadWins;
+        const losses = p.hpLosses + p.sndLosses + p.overloadLosses;
+        const kills = p.lifetimeKills;
+        const deaths = p.lifetimeDeaths;
 
-        /* ------------------------------------------------------ */
-        /* 2. BUILD TABLE ROWS                                    */
-        /* ------------------------------------------------------ */
+        const hasPlayed = (wins + losses + kills + deaths) > 0;
+        return showInactive ? true : hasPlayed;
+    });
 
-        for (const [id, p] of players) {
+    filtered.sort((a, b) => b.elo - a.elo);
 
-            const kd = p.lifetimeDeaths > 0 ? (p.lifetimeKills / p.lifetimeDeaths) : 0;
+    filtered.forEach((p, index) => {
+        const tr = document.createElement("tr");
 
-            const totalAvg =
-                (p.hpMarginTotal + p.sndMarginTotal + p.overloadMarginTotal) /
-                Math.max(1, p.hpMarginCount + p.sndMarginCount + p.overloadMarginCount);
+        tr.innerHTML += `<td class="rank">${index + 1}</td>`;
+        tr.innerHTML += `<td class="player-name" data-id="${p.id}">${p.name}</td>`;
+        tr.innerHTML += `<td>${p.elo.toFixed(2)}</td>`;
 
-            const marginClass = totalAvg >= 0 ? "good" : "bad";
-            const kdClass = kd >= 1 ? "good" : "bad";
+        const wins = p.hpWins + p.sndWins + p.overloadWins;
+        const losses = p.hpLosses + p.sndLosses + p.overloadLosses;
+        const wl = losses === 0 ? wins : (wins / losses).toFixed(2);
 
-            const row = document.createElement("tr");
+        tr.innerHTML += `
+            <td>
+                <div class="wl-container">
+                    ${wl}
+                    <span class="wl-arrow">▼</span>
+                    <div class="wl-dropdown">
+                        <div class="wl-win">W ${wins}</div>
+                        <div class="wl-loss">L ${losses}</div>
+                    </div>
+                </div>
+            </td>
+        `;
 
-            row.innerHTML = `
-                <td>${rank++}</td>
-                <td class="player-hover" data-id="${id}">${p.name}</td>
+        const kd = p.lifetimeDeaths === 0 ? p.lifetimeKills : (p.lifetimeKills / p.lifetimeDeaths).toFixed(2);
+        tr.innerHTML += `<td>${kd}</td>`;
 
-                <td class="elo-gold">${p.elo.toFixed(2)}</td>
+        tbody.appendChild(tr);
+    });
 
-                <td class="good clickable" data-id="${id}" data-type="wins">
-                    ${p.hpWins + p.sndWins + p.overloadWins}
-                </td>
+    enableWLDrops();
+    enableModal(filtered);
+}
 
-                <td class="bad clickable" data-id="${id}" data-type="losses">
-                    ${p.hpLosses + p.sndLosses + p.overloadLosses}
-                </td>
+function enableWLDrops() {
+    document.querySelectorAll(".wl-container").forEach(container => {
+        const dropdown = container.querySelector(".wl-dropdown");
 
-                <td class="${marginClass}">
-                    ${totalAvg.toFixed(2)}
-                </td>
+        container.addEventListener("click", () => {
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        });
 
-                <td class="${kdClass}">
-                    ${kd.toFixed(2)}
-                </td>
+        document.addEventListener("click", e => {
+            if (!container.contains(e.target)) dropdown.style.display = "none";
+        });
+    });
+}
+
+// Player names
+function getPlayerName(id) {
+    const names = {
+        1: "OBEY",
+        2: "KAZZI",
+        3: "SYMBRR",
+        4: "EES",
+        5: "NAGI",
+        6: "AKEEB",
+        7: "USMAAN",
+        8: "AMAAN",
+        9: "PARVEZ",
+        10: "HAZZA",
+        11: "HAIDERI",
+        12: "NABEEL",
+        13: "SAFY",
+        14: "Unknown_14"
+    };
+    return names[id] || "Player " + id;
+}
+
+/* ---------------------------
+   FIXED PERCENTILE ENGINE
+---------------------------- */
+
+function percentile(value, array) {
+    const sorted = [...array].sort((a, b) => a - b);
+
+    if (sorted.length <= 1) return 0;
+
+    const below = sorted.filter(v => v < value).length;
+
+    return below / (sorted.length - 1);
+}
+
+function computeModeRating(kd, kdArr, wr, wrArr, margin, marginArr, gamesPlayed) {
+    const kdPct = percentile(kd, kdArr);
+    const wrPct = percentile(wr, wrArr);
+    const marginPct = percentile(margin, marginArr);
+
+    const weighted =
+        kdPct * 0.40 +
+        wrPct * 0.30 +
+        marginPct * 0.30;
+
+    let rating = Math.round(57 + weighted * 42);
+
+    const MIN_GAMES = 5;
+
+    if (gamesPlayed < MIN_GAMES && rating > 95) {
+        rating = 95;
+    }
+
+    return rating;
+}
+
+/* ---------------------------
+   MODE COMPUTATION
+---------------------------- */
+
+function computeMode(prefix, p, players) {
+    const kills = p[prefix + "Kills"];
+    const deaths = p[prefix + "Deaths"];
+    const wins = p[prefix + "Wins"];
+    const losses = p[prefix + "Losses"];
+    const marginTotal = p[prefix + "MarginTotal"];
+    const marginCount = p[prefix + "MarginCount"];
+
+    const kd = deaths === 0 ? kills : kills / deaths;
+    const wr = (wins + losses) === 0 ? 0 : wins / (wins + losses);
+    const margin = marginCount === 0 ? 0 : marginTotal / marginCount;
+
+    const kdArr = players
+        .filter(x => x[prefix + "Deaths"] + x[prefix + "Kills"] > 0)
+        .map(x => x[prefix + "Kills"] / x[prefix + "Deaths"]);
+
+    const wrArr = players
+        .filter(x => x[prefix + "Wins"] + x[prefix + "Losses"] > 0)
+        .map(x => x[prefix + "Wins"] / (x[prefix + "Wins"] + x[prefix + "Losses"]));
+
+    const marginArr = players
+        .filter(x => x[prefix + "MarginCount"] > 0)
+        .map(x => x[prefix + "MarginTotal"] / x[prefix + "MarginCount"]);
+
+    const gamesPlayed = wins + losses;
+
+    const rating = computeModeRating(kd, kdArr, wr, wrArr, margin, marginArr, gamesPlayed);
+
+    return { kd, wr, margin, rating };
+}
+
+/* ---------------------------
+   CDL CARD MODAL
+---------------------------- */
+
+function enableModal(players) {
+    const modal = document.getElementById("playerModal");
+    const closeBtn = document.getElementById("closeModal");
+    const card = document.getElementById("cdlCard");
+
+    document.querySelectorAll(".player-name").forEach(el => {
+        el.addEventListener("click", () => {
+            const id = Number(el.dataset.id);
+            const p = players.find(x => x.id === id);
+
+            const hp = computeMode("hp", p, players);
+            const snd = computeMode("snd", p, players);
+            const ovl = computeMode("overload", p, players);
+
+            const total = hp.rating + snd.rating + ovl.rating;
+            const avg = Math.round(total / 3);
+
+            card.innerHTML = `
+                <div class="cdl-card">
+                    <div class="cdl-overall">${avg}</div>
+                    <div class="cdl-name">${p.name}</div>
+
+                    <div class="cdl-mode">
+                        <h3>Hardpoint</h3>
+                        <div class="cdl-rating">${hp.rating}</div>
+                        <div class="cdl-stat">K/D: ${hp.kd.toFixed(2)}</div>
+                        <div class="cdl-stat">W/L: ${hp.wr.toFixed(2)}</div>
+                        <div class="cdl-stat">Margin: ${hp.margin.toFixed(2)}</div>
+                    </div>
+
+                    <div class="cdl-mode">
+                        <h3>Search & Destroy</h3>
+                        <div class="cdl-rating">${snd.rating}</div>
+                        <div class="cdl-stat">K/D: ${snd.kd.toFixed(2)}</div>
+                        <div class="cdl-stat">W/L: ${snd.wr.toFixed(2)}</div>
+                        <div class="cdl-stat">Margin: ${snd.margin.toFixed(2)}</div>
+                    </div>
+
+                    <div class="cdl-mode">
+                        <h3>Overload</h3>
+                        <div class="cdl-rating">${ovl.rating}</div>
+                        <div class="cdl-stat">K/D: ${ovl.kd.toFixed(2)}</div>
+                        <div class="cdl-stat">W/L: ${ovl.wr.toFixed(2)}</div>
+                        <div class="cdl-stat">Margin: ${ovl.margin.toFixed(2)}</div>
+                    </div>
+
+                    <div class="cdl-totals">
+                        <p>Total Rating: ${total}</p>
+                        <p>Average Rating: ${avg}</p>
+                    </div>
+                </div>
             `;
 
-            tbody.appendChild(row);
-        }
-
-        /* ------------------------------------------------------ */
-        /* 3. POPUP LOGIC                                         */
-        /* ------------------------------------------------------ */
-
-        const popup = document.getElementById("popup");
-        const popupContent = document.getElementById("popup-content");
-
-        document.querySelectorAll(".clickable").forEach(cell => {
-            cell.addEventListener("click", () => {
-                const id = cell.dataset.id;
-                const p = data[id];
-
-                popupContent.innerHTML = `
-                    <h3>${p.name} — Wins/Losses</h3>
-
-                    <p><strong>Hardpoint:</strong> 
-                        <span class="good">${p.hpWins}W</span> / 
-                        <span class="bad">${p.hpLosses}L</span>
-                    </p>
-
-                    <p><strong>SND:</strong> 
-                        <span class="good">${p.sndWins}W</span> / 
-                        <span class="bad">${p.sndLosses}L</span>
-                    </p>
-
-                    <p><strong>Overload:</strong> 
-                        <span class="good">${p.overloadWins}W</span> / 
-                        <span class="bad">${p.overloadLosses}L</span>
-                    </p>
-
-                    <p style="margin-top:10px; font-size:12px; color:#888;">Click anywhere to close</p>
-                `;
-
-                popup.classList.remove("hidden");
-            });
-        });
-
-        popup.addEventListener("click", () => {
-            popup.classList.add("hidden");
-        });
-
-        /* ------------------------------------------------------ */
-        /* 4. BUILD MODE STATS FOR ALL PLAYERS                    */
-        /* ------------------------------------------------------ */
-
-        const modeStats = players.map(([id, p]) => {
-
-            const hpKD = p.hpDeaths > 0 ? p.hpKills / p.hpDeaths : 0;
-            const sndKD = p.sndDeaths > 0 ? p.sndKills / p.sndDeaths : 0;
-            const ovlKD = p.overloadDeaths > 0 ? p.overloadKills / p.overloadDeaths : 0;
-
-            const hpMargin = p.hpMarginCount > 0 ? p.hpMarginTotal / p.hpMarginCount : 0;
-            const sndMargin = p.sndMarginCount > 0 ? p.sndMarginTotal / p.sndMarginCount : 0;
-            const ovlMargin = p.overloadMarginCount > 0 ? p.overloadMarginTotal / p.overloadMarginCount : 0;
-
-            const hpWR = (p.hpWins + p.hpLosses) > 0 ? p.hpWins / (p.hpWins + p.hpLosses) : 0;
-            const sndWR = (p.sndWins + p.sndLosses) > 0 ? p.sndWins / (p.sndWins + p.sndLosses) : 0;
-            const ovlWR = (p.overloadWins + p.overloadLosses) > 0 ? p.overloadWins / (p.overloadWins + p.overloadLosses) : 0;
-
-            return {
-                id,
-                name: p.name,
-
-                hpKD, sndKD, ovlKD,
-                hpMargin, sndMargin, ovlMargin,
-                hpWR, sndWR, ovlWR
-            };
-        });
-
-        /* ------------------------------------------------------ */
-        /* 5. PERCENTILE FUNCTION                                 */
-        /* ------------------------------------------------------ */
-
-        function percentile(value, arr) {
-            const sorted = [...arr].sort((a, b) => a - b);
-            const index = sorted.indexOf(value);
-            return index / (sorted.length - 1);
-        }
-
-        /* ------------------------------------------------------ */
-        /* 6. PREPARE ARRAYS FOR PERCENTILES                      */
-        /* ------------------------------------------------------ */
-
-        const hpKDList = modeStats.map(p => p.hpKD);
-        const sndKDList = modeStats.map(p => p.sndKD);
-        const ovlKDList = modeStats.map(p => p.ovlKD);
-
-        const hpMarginList = modeStats.map(p => p.hpMargin);
-        const sndMarginList = modeStats.map(p => p.sndMargin);
-        const ovlMarginList = modeStats.map(p => p.ovlMargin);
-
-        const hpWRList = modeStats.map(p => p.hpWR);
-        const sndWRList = modeStats.map(p => p.sndWR);
-        const ovlWRList = modeStats.map(p => p.ovlWR);
-
-        /* ------------------------------------------------------ */
-        /* 7. MODE RATING FUNCTION (60–99)                        */
-        /* ------------------------------------------------------ */
-
-        function modeRating(pKD, pW, pM) {
-            const score = (0.45 * pKD) + (0.35 * pW) + (0.20 * pM);
-            return 60 + Math.round(score * 39);
-        }
-
-        /* ------------------------------------------------------ */
-        /* 8. RATING COLOUR CLASS SELECTOR                        */
-        /* ------------------------------------------------------ */
-
-        function ratingClass(value) {
-            if (value >= 99) return "rating-legendary";
-            if (value >= 80) return "rating-green";
-            if (value >= 65) return "rating-yellow";
-            return "rating-red";
-        }
-
-        /* ------------------------------------------------------ */
-        /* 9. HOVER CARD LOGIC                                    */
-        /* ------------------------------------------------------ */
-
-        const card = document.getElementById("playerCard");
-        const banner = document.getElementById("ratingBanner");
-
-        function showCard(playerId) {
-            const p = modeStats.find(x => x.id === playerId);
-
-            // Percentiles
-            const p_hpKD = percentile(p.hpKD, hpKDList);
-            const p_sndKD = percentile(p.sndKD, sndKDList);
-            const p_ovlKD = percentile(p.ovlKD, ovlKDList);
-
-            const p_hpM = percentile(p.hpMargin, hpMarginList);
-            const p_sndM = percentile(p.sndMargin, sndMarginList);
-            const p_ovlM = percentile(p.ovlMargin, ovlMarginList);
-
-            const p_hpW = percentile(p.hpWR, hpWRList);
-            const p_sndW = percentile(p.sndWR, sndWRList);
-            const p_ovlW = percentile(p.ovlWR, ovlWRList);
-
-            // Ratings
-            const hpRating = modeRating(p_hpKD, p_hpW, p_hpM);
-            const sndRating = modeRating(p_sndKD, p_sndW, p_sndM);
-            const ovlRating = modeRating(p_ovlKD, p_ovlW, p_ovlM);
-
-            const ovr = Math.round((hpRating + sndRating + ovlRating) / 3);
-
-            // Elements
-            const ovrEl = document.getElementById("cardOVR");
-            const hpEl = document.getElementById("hpRating");
-            const sndEl = document.getElementById("sndRating");
-            const ovlEl = document.getElementById("ovlRating");
-
-            // Set text
-            ovrEl.textContent = ovr;
-            document.getElementById("cardName").textContent = p.name;
-
-            document.getElementById("hpKD").textContent = p.hpKD.toFixed(2);
-            document.getElementById("hpMargin").textContent = p.hpMargin.toFixed(2);
-            hpEl.textContent = hpRating;
-
-            document.getElementById("sndKD").textContent = p.sndKD.toFixed(2);
-            document.getElementById("sndMargin").textContent = p.sndMargin.toFixed(2);
-            sndEl.textContent = sndRating;
-
-            document.getElementById("ovlKD").textContent = p.ovlKD.toFixed(2);
-            document.getElementById("ovlMargin").textContent = p.ovlMargin.toFixed(2);
-            ovlEl.textContent = ovlRating;
-
-            /* -------------------------------------------------- */
-            /* Apply rating colours                               */
-            /* -------------------------------------------------- */
-
-            ovrEl.className = ratingClass(ovr);
-            hpEl.className = ratingClass(hpRating);
-            sndEl.className = ratingClass(sndRating);
-            ovlEl.className = ratingClass(ovlRating);
-
-            /* -------------------------------------------------- */
-            /* Apply flame animation ONLY for 99                  */
-            /* -------------------------------------------------- */
-
-            banner.classList.remove("flame");
-            if (ovr >= 99) banner.classList.add("flame");
-
-            /* -------------------------------------------------- */
-            /* Show card                                          */
-            /* -------------------------------------------------- */
-
-            card.classList.remove("hidden");
-        }
-
-        function hideCard() {
-            card.classList.add("hidden");
-        }
-
-        document.querySelectorAll(".player-hover").forEach(cell => {
-            cell.addEventListener("mouseenter", () => showCard(cell.dataset.id));
-            cell.addEventListener("mouseleave", hideCard);
+            modal.style.display = "block";
         });
     });
 
-
-
-
-
-
-
-
-
+    closeBtn.onclick = () => modal.style.display = "none";
+    window.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
+}
 
 
 
