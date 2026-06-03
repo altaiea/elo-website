@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <title>Elo Leaderboard</title>
     <meta name="robots" content="noindex, nofollow">
+
+    <link rel="preload" href="wings.png" as="image">
+    <link rel="preload" href="CDLcardUse.png" as="image">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <h1>RANKINGS</h1>
 
-<!-- Toggle -->
 <div class="toggle-container">
     <label class="switch small-switch">
         <input type="checkbox" id="toggleInactive">
@@ -19,7 +22,6 @@
     <span class="toggle-label">Show Inactive Players</span>
 </div>
 
-<!-- Leaderboard -->
 <table id="leaderboard">
     <thead>
     <tr>
@@ -33,39 +35,36 @@
     <tbody id="table-body"></tbody>
 </table>
 
-
 <h2 style="text-align:center; margin-top:40px;">Teams</h2>
-    <button id="toggleTeams" class="teams-toggle">Show Team Builder ▼</button>
-    <div id="teamsSection" class="teams-section" style="display:none;">
+<button id="toggleTeams" class="teams-toggle">Show Team Builder ▼</button>
 
+<div id="teamsSection" class="teams-section" style="display:none;">
+    <div id="team-builder" style="width:95%; margin:0 auto; background:#15151a; padding:20px; border:1px solid #222; box-shadow:0 0 25px rgba(0,255,255,0.08);">
+        <p>Select 8 players:</p>
 
-<div id="team-builder" style="width:95%; margin:0 auto; background:#15151a; padding:20px; border:1px solid #222; box-shadow:0 0 25px rgba(0,255,255,0.08);">
+        <div class="player-select-grid">
+            <select class="team-player"></select>
+            <select class="team-player"></select>
+            <select class="team-player"></select>
+            <select class="team-player"></select>
+            <select class="team-player"></select>
+            <select class="team-player"></select>
+            <select class="team-player"></select>
+            <select class="team-player"></select>
+        </div>
 
-    <p>Select 8 players:</p>
+        <button id="generateTeams" style="margin-top:20px; padding:10px 20px; cursor:pointer;">
+            Generate Balanced Teams
+        </button>
 
-    <div class="player-select-grid">
-        <select class="team-player"></select>
-        <select class="team-player"></select>
-        <select class="team-player"></select>
-        <select class="team-player"></select>
-        <select class="team-player"></select>
-        <select class="team-player"></select>
-        <select class="team-player"></select>
-        <select class="team-player"></select>
+        <div id="teamOutput" style="margin-top:20px; font-size:16px;"></div>
     </div>
-    
-
-    <button id="generateTeams" style="margin-top:20px; padding:10px 20px; cursor:pointer;">
-        Generate Balanced Teams
-    </button>
-
-    <div id="teamOutput" style="margin-top:20px; font-size:16px;"></div>
 </div>
-    </div>
 
-<!-- Modal -->
+<!-- MAIN PLAYER MODAL -->
 <div id="playerModal" class="modal">
     <div class="modal-content">
+
         <span id="closeModal" class="close">&times;</span>
 
         <div class="card-contents-wrapper">
@@ -74,20 +73,15 @@
                     <div class="front"></div>
 
                     <div class="back">
-
-                        <!-- COLUMN 1 (HP) -->
                         <span class="col1 row1 circle-row1"></span>
                         <span class="col1 row2">HP</span>
 
-                        <!-- COLUMN 2 (OVL) -->
                         <span class="col2 row1 circle-row1"></span>
                         <span class="col2 row2">OVL</span>
 
-                        <!-- COLUMN 3 (SND) -->
                         <span class="col3 row1 circle-row1"></span>
                         <span class="col3 row2">SND</span>
 
-                        <!-- Rating + Name -->
                         <div class="date-box">
                             <div class="rating"></div>
                         </div>
@@ -101,6 +95,16 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<!-- SECOND MODAL: MODE STATS -->
+<div id="modeModal" class="modal">
+    <div class="modal-content mode-modal-box">
+        <h2 id="modeTitle" style="text-align:center; margin-bottom:15px;"></h2>
+
+        <p id="modeKD" style="font-size:20px; font-weight:700; text-align:center;"></p>
+        <p id="modeMargin" style="font-size:20px; font-weight:700; text-align:center;"></p>
     </div>
 </div>
 
