@@ -393,6 +393,46 @@ input:checked + .small-slider:before {
 }
 
 
+.teams-toggle {
+    width: 60%;
+    margin: 20px auto;
+    display: block;
+    padding: 10px;
+    background: #00eaff;
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.teams-section {
+    transition: all 0.3s ease;
+}
+
+#teamOutput {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+#team-builder {
+    width: 90%; /* instead of 60% */
+}
+
+@media (max-width: 600px) {
+    #team-builder {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .teams-toggle {
+        width: 95%;
+    }
+}
+
+
 
 
 
