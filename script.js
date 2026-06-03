@@ -284,4 +284,13 @@ function setMarginColor(el, margin) {
     el.style.color = margin < 0 ? "#FF4444" : "#00FF66";
 }
 
+document.getElementById("toggleTeams").addEventListener("click", () => {
+    const sec = document.getElementById("teamsSection");
+    const btn = document.getElementById("toggleTeams");
+
+    const isOpen = sec.style.display === "block";
+
+    sec.style.display = isOpen ? "none" : "block";
+    btn.textContent = isOpen ? "Show Team Builder ▼" : "Hide Team Builder ▲";
+});
 
