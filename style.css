@@ -365,9 +365,9 @@ input:checked + .small-slider:before {
 
 /* SECOND MODAL (MODE STATS) */
 .mode-modal-box {
-    width: 300px !important;
+    width: 200px !important;
     height: auto !important;
-    padding: 25px !important;
+    padding: 15px !important;
     border: 2px solid #00eaff;
     background: #1a1a20;
     box-shadow: 0 0 20px rgba(0,255,255,0.4);
