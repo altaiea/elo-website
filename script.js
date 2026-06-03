@@ -13,7 +13,7 @@ fetch("stats.json")
 
         renderTable();
         setupToggle();
-        populateTeamDropdowns();   //  ADDED EARLIER
+        populateTeamDropdowns();
     });
 
 function setupToggle() {
@@ -54,7 +54,7 @@ function renderTable() {
         tr.innerHTML += `
             <td>
                 <div class="wl-container">
-                    ${wl}
+                    <span class="wl-main" style="color:${wl >= 1 ? '#00ff00' : '#ff3c3c'}">${wl}</span>
                     <span class="wl-arrow">▼</span>
                     <div class="wl-dropdown">
                         <div class="wl-win">W ${wins}</div>
@@ -64,13 +64,11 @@ function renderTable() {
             </td>
         `;
 
-        //  KD with color
         const kd = p.lifetimeDeaths === 0 ? p.lifetimeKills : (p.lifetimeKills / p.lifetimeDeaths).toFixed(2);
         tr.innerHTML += `<td><span class="kd-val">${kd}</span></td>`;
 
         tbody.appendChild(tr);
 
-        //  Apply KD color
         setKDColor(tr.querySelector(".kd-val"), parseFloat(kd));
     });
 
@@ -92,7 +90,6 @@ function enableWLDrops() {
     });
 }
 
-// ⭐ Dropdown filler
 function populateTeamDropdowns() {
     const selects = document.querySelectorAll(".team-player");
 
@@ -104,7 +101,6 @@ function populateTeamDropdowns() {
     });
 }
 
-// Player names
 function getPlayerName(id) {
     const names = {
         1: "OBEY",
@@ -196,12 +192,11 @@ function computeMode(prefix, p, players) {
 }
 
 /* ---------------------------
-   MODAL + NEW CARD INJECTION
+   MAIN PLAYER MODAL
 ---------------------------- */
 
 function enableModal(players) {
     const modal = document.getElementById("playerModal");
-    const closeBtn = document.getElementById("closeModal");
 
     document.querySelectorAll(".player-name").forEach(el => {
         el.addEventListener("click", () => {
@@ -215,26 +210,30 @@ function enableModal(players) {
 
             const avg = Math.round((hp.rating + snd.rating + ovl.rating) / 3);
 
-            // Rating + Name
             const ratingEl = document.querySelector(".rating");
             ratingEl.textContent = avg;
             setRatingColor(ratingEl, avg);
 
             document.querySelector(".name").textContent = p.name;
 
-            // Column 1 (HP)
-            setRatingColor(document.querySelector(".col1.row1"), hp.rating);
-            document.querySelector(".col1.row1").textContent = hp.rating;
+            const hpEl = document.querySelector(".col1.row1");
+            const ovlEl = document.querySelector(".col2.row1");
+            const sndEl = document.querySelector(".col3.row1");
 
-            // Column 2 (OVL)
-            setRatingColor(document.querySelector(".col2.row1"), ovl.rating);
-            document.querySelector(".col2.row1").textContent = ovl.rating;
+            setRatingColor(hpEl, hp.rating);
+            hpEl.textContent = hp.rating;
 
-            // Column 3 (SND)
-            setRatingColor(document.querySelector(".col3.row1"), snd.rating);
-            document.querySelector(".col3.row1").textContent = snd.rating;
+            setRatingColor(ovlEl, ovl.rating);
+            ovlEl.textContent = ovl.rating;
 
-            // Flip card
+            setRatingColor(sndEl, snd.rating);
+            sndEl.textContent = snd.rating;
+
+            // Mode stats modal triggers
+            hpEl.onclick = () => openModeModal("Hardpoint", hp);
+            ovlEl.onclick = () => openModeModal("Overload", ovl);
+            sndEl.onclick = () => openModeModal("Search & Destroy", snd);
+
             const card = document.querySelector(".card");
             card.classList.remove("flipped");
             setTimeout(() => card.classList.add("flipped"), 1000);
@@ -243,10 +242,42 @@ function enableModal(players) {
         });
     });
 
-    closeBtn.onclick = () => modal.style.display = "none";
-    window.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
+    // FIXED: independent close handler
+    document.addEventListener("click", e => {
+        if (e.target === modal) modal.style.display = "none";
+    });
 }
 
+/* ---------------------------
+   MODE STATS MODAL
+---------------------------- */
+
+function openModeModal(modeName, modeStats) {
+    const modal = document.getElementById("modeModal");
+
+    document.getElementById("modeTitle").textContent = modeName;
+
+    const kdEl = document.getElementById("modeKD");
+    kdEl.textContent = "K/D: " + modeStats.kd.toFixed(2);
+    setKDColor(kdEl, modeStats.kd);
+
+    let convertedMargin = modeStats.margin;
+
+    if (modeName === "Hardpoint") convertedMargin *= 250;
+    if (modeName === "Overload") convertedMargin *= 8;
+    if (modeName === "Search & Destroy") convertedMargin *= 6;
+
+    const marginEl = document.getElementById("modeMargin");
+    marginEl.textContent = "AvgM: " + convertedMargin.toFixed(2);
+    setMarginColor(marginEl, convertedMargin);
+
+    modal.style.display = "block";
+
+    // FIXED: independent close handler
+    document.addEventListener("click", e => {
+        if (e.target === modal) modal.style.display = "none";
+    });
+}
 
 /* ---------------------------
    COLOR HELPERS
@@ -284,6 +315,10 @@ function setMarginColor(el, margin) {
     el.style.color = margin < 0 ? "#FF4444" : "#00FF66";
 }
 
+/* ---------------------------
+   TEAM BUILDER
+---------------------------- */
+
 document.getElementById("toggleTeams").addEventListener("click", () => {
     const sec = document.getElementById("teamsSection");
     const btn = document.getElementById("toggleTeams");
@@ -292,5 +327,78 @@ document.getElementById("toggleTeams").addEventListener("click", () => {
 
     sec.style.display = isOpen ? "none" : "block";
     btn.textContent = isOpen ? "Show Team Builder ▼" : "Hide Team Builder ▲";
+});
+
+document.getElementById("generateTeams").addEventListener("click", () => {
+    const selects = document.querySelectorAll(".team-player");
+    const chosen = [];
+
+    selects.forEach(sel => {
+        if (sel.value) chosen.push(Number(sel.value));
+    });
+
+    if (chosen.length !== 8 || new Set(chosen).size !== 8) {
+        document.getElementById("teamOutput").textContent =
+            "Please select 8 unique players.";
+        return;
+    }
+
+    const players = chosen.map(id => allPlayers.find(p => p.id === id));
+
+    function combos(arr, k) {
+        const result = [];
+        function helper(start, combo) {
+            if (combo.length === k) {
+                result.push(combo);
+                return;
+            }
+            for (let i = start; i < arr.length; i++) {
+                helper(i + 1, combo.concat(arr[i]));
+            }
+        }
+        helper(0, []);
+        return result;
+    }
+
+    const allCombos = combos(players, 4);
+
+    let best = null;
+    let bestDiff = Infinity;
+
+    allCombos.forEach(teamA => {
+        const teamAIds = new Set(teamA.map(p => p.id));
+        const teamB = players.filter(p => !teamAIds.has(p.id));
+
+        const eloA = teamA.reduce((s, p) => s + p.elo, 0);
+        const eloB = teamB.reduce((s, p) => s + p.elo, 0);
+
+        const diff = Math.abs(eloA - eloB);
+
+        if (diff < bestDiff) {
+            bestDiff = diff;
+            best = { teamA, teamB, eloA, eloB };
+        }
+    });
+
+    if (!best) {
+        document.getElementById("teamOutput").textContent =
+            "Could not generate teams. Check selections.";
+        return;
+    }
+
+    const out =
+        "==============================\n" +
+        "   CLOSEST MATCH-UP FOUND\n" +
+        "==============================\n\n" +
+        " Elo: " + best.eloA.toFixed(2) + "  vs  " + best.eloB.toFixed(2) + "\n\n" +
+        "------------ TEAM A ------------\n" +
+        best.teamA.map(p => " • " + p.name).join("\n") +
+        "\n\n" +
+        "------------ TEAM B ------------\n" +
+        best.teamB.map(p => " • " + p.name).join("\n") +
+        "\n" +
+        "==============================";
+
+    alert(out);
 });
 
