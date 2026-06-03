@@ -402,3 +402,14 @@ document.getElementById("generateTeams").addEventListener("click", () => {
     alert(out);
 });
 
+
+
+
+
+
+
+
+
+
+
+
