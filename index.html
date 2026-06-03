@@ -35,6 +35,9 @@
 
 
 <h2 style="text-align:center; margin-top:40px;">Teams</h2>
+    <button id="toggleTeams" class="teams-toggle">Show Team Builder ▼</button>
+    <div id="teamsSection" class="teams-section" style="display:none;">
+
 
 <div id="team-builder" style="width:95%; margin:0 auto; background:#15151a; padding:20px; border:1px solid #222; box-shadow:0 0 25px rgba(0,255,255,0.08);">
 
@@ -50,6 +53,7 @@
         <select class="team-player"></select>
         <select class="team-player"></select>
     </div>
+    
 
     <button id="generateTeams" style="margin-top:20px; padding:10px 20px; cursor:pointer;">
         Generate Balanced Teams
@@ -57,7 +61,7 @@
 
     <div id="teamOutput" style="margin-top:20px; font-size:16px;"></div>
 </div>
-
+    </div>
 
 <!-- Modal -->
 <div id="playerModal" class="modal">
