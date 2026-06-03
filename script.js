@@ -13,6 +13,7 @@ fetch("stats.json")
 
         renderTable();
         setupToggle();
+        populateTeamDropdowns();   //  ADDED EARLIER
     });
 
 function setupToggle() {
@@ -44,7 +45,7 @@ function renderTable() {
 
         tr.innerHTML += `<td class="rank">${index + 1}</td>`;
         tr.innerHTML += `<td class="player-name" data-id="${p.id}">${p.name}</td>`;
-        tr.innerHTML += `<td>${p.elo.toFixed(2)}</td>`;
+        tr.innerHTML += `<td class="elo-gold">${p.elo.toFixed(2)}</td>`;
 
         const wins = p.hpWins + p.sndWins + p.overloadWins;
         const losses = p.hpLosses + p.sndLosses + p.overloadLosses;
@@ -63,10 +64,14 @@ function renderTable() {
             </td>
         `;
 
+        //  KD with color
         const kd = p.lifetimeDeaths === 0 ? p.lifetimeKills : (p.lifetimeKills / p.lifetimeDeaths).toFixed(2);
-        tr.innerHTML += `<td>${kd}</td>`;
+        tr.innerHTML += `<td><span class="kd-val">${kd}</span></td>`;
 
         tbody.appendChild(tr);
+
+        //  Apply KD color
+        setKDColor(tr.querySelector(".kd-val"), parseFloat(kd));
     });
 
     enableWLDrops();
@@ -83,6 +88,18 @@ function enableWLDrops() {
 
         document.addEventListener("click", e => {
             if (!container.contains(e.target)) dropdown.style.display = "none";
+        });
+    });
+}
+
+// ⭐ Dropdown filler
+function populateTeamDropdowns() {
+    const selects = document.querySelectorAll(".team-player");
+
+    selects.forEach(sel => {
+        sel.innerHTML = `<option value="">-- Select Player --</option>`;
+        allPlayers.forEach(p => {
+            sel.innerHTML += `<option value="${p.id}">${p.name} (${p.elo})</option>`;
         });
     });
 }
@@ -128,9 +145,9 @@ function computeModeRating(kd, kdArr, wr, wrArr, margin, marginArr, gamesPlayed)
     const marginPct = percentile(margin, marginArr);
 
     const weighted =
-        kdPct * 0.40 +
-        wrPct * 0.30 +
-        marginPct * 0.30;
+        kdPct * 0.50 +
+        wrPct * 0.25 +
+        marginPct * 0.25;
 
     let rating = Math.round(57 + weighted * 42);
 
@@ -175,20 +192,20 @@ function computeMode(prefix, p, players) {
 
     const rating = computeModeRating(kd, kdArr, wr, wrArr, margin, marginArr, gamesPlayed);
 
-    return { kd, wr, margin, rating };
+    return { kd, wr, margin, rating, wins, losses };
 }
 
 /* ---------------------------
-   CDL CARD MODAL
+   MODAL + NEW CARD INJECTION
 ---------------------------- */
 
 function enableModal(players) {
     const modal = document.getElementById("playerModal");
     const closeBtn = document.getElementById("closeModal");
-    const card = document.getElementById("cdlCard");
 
     document.querySelectorAll(".player-name").forEach(el => {
         el.addEventListener("click", () => {
+
             const id = Number(el.dataset.id);
             const p = players.find(x => x.id === id);
 
@@ -196,44 +213,31 @@ function enableModal(players) {
             const snd = computeMode("snd", p, players);
             const ovl = computeMode("overload", p, players);
 
-            const total = hp.rating + snd.rating + ovl.rating;
-            const avg = Math.round(total / 3);
+            const avg = Math.round((hp.rating + snd.rating + ovl.rating) / 3);
 
-            card.innerHTML = `
-                <div class="cdl-card">
-                    <div class="cdl-overall">${avg}</div>
-                    <div class="cdl-name">${p.name}</div>
+            // Rating + Name
+            const ratingEl = document.querySelector(".rating");
+            ratingEl.textContent = avg;
+            setRatingColor(ratingEl, avg);
 
-                    <div class="cdl-mode">
-                        <h3>Hardpoint</h3>
-                        <div class="cdl-rating">${hp.rating}</div>
-                        <div class="cdl-stat">K/D: ${hp.kd.toFixed(2)}</div>
-                        <div class="cdl-stat">W/L: ${hp.wr.toFixed(2)}</div>
-                        <div class="cdl-stat">Margin: ${hp.margin.toFixed(2)}</div>
-                    </div>
+            document.querySelector(".name").textContent = p.name;
 
-                    <div class="cdl-mode">
-                        <h3>Search & Destroy</h3>
-                        <div class="cdl-rating">${snd.rating}</div>
-                        <div class="cdl-stat">K/D: ${snd.kd.toFixed(2)}</div>
-                        <div class="cdl-stat">W/L: ${snd.wr.toFixed(2)}</div>
-                        <div class="cdl-stat">Margin: ${snd.margin.toFixed(2)}</div>
-                    </div>
+            // Column 1 (HP)
+            setRatingColor(document.querySelector(".col1.row1"), hp.rating);
+            document.querySelector(".col1.row1").textContent = hp.rating;
 
-                    <div class="cdl-mode">
-                        <h3>Overload</h3>
-                        <div class="cdl-rating">${ovl.rating}</div>
-                        <div class="cdl-stat">K/D: ${ovl.kd.toFixed(2)}</div>
-                        <div class="cdl-stat">W/L: ${ovl.wr.toFixed(2)}</div>
-                        <div class="cdl-stat">Margin: ${ovl.margin.toFixed(2)}</div>
-                    </div>
+            // Column 2 (OVL)
+            setRatingColor(document.querySelector(".col2.row1"), ovl.rating);
+            document.querySelector(".col2.row1").textContent = ovl.rating;
 
-                    <div class="cdl-totals">
-                        <p>Total Rating: ${total}</p>
-                        <p>Average Rating: ${avg}</p>
-                    </div>
-                </div>
-            `;
+            // Column 3 (SND)
+            setRatingColor(document.querySelector(".col3.row1"), snd.rating);
+            document.querySelector(".col3.row1").textContent = snd.rating;
+
+            // Flip card
+            const card = document.querySelector(".card");
+            card.classList.remove("flipped");
+            setTimeout(() => card.classList.add("flipped"), 1000);
 
             modal.style.display = "block";
         });
@@ -243,5 +247,41 @@ function enableModal(players) {
     window.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
 }
 
+
+/* ---------------------------
+   COLOR HELPERS
+---------------------------- */
+
+function setRatingColor(el, rating) {
+    el.style.color = "";
+    el.style.background = "";
+    el.style.webkitBackgroundClip = "";
+    el.style.webkitTextFillColor = "";
+
+    if (rating === 99) {
+        el.style.background = "linear-gradient(to bottom, #FF3CFF, #D020FF, #7A00C8)";
+        el.style.webkitBackgroundClip = "text";
+        el.style.webkitTextFillColor = "transparent";
+        return;
+    }
+
+    if (rating < 60) {
+        el.style.color = "#FF3B3B";
+    } else if (rating <= 66) {
+        el.style.color = "white";
+    } else if (rating <= 79) {
+        el.style.color = "#FFE066";
+    } else if (rating <= 98) {
+        el.style.color = "#7CFF4E";
+    }
+}
+
+function setKDColor(el, kd) {
+    el.style.color = kd < 1.0 ? "#FF4444" : "#00FF66";
+}
+
+function setMarginColor(el, margin) {
+    el.style.color = margin < 0 ? "#FF4444" : "#00FF66";
+}
 
 

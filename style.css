@@ -1,4 +1,6 @@
-/* === ESPORTS THEME === */
+/* ============================================================
+   LEADERBOARD + GENERAL UI
+============================================================ */
 
 body {
     font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -69,7 +71,7 @@ tr:nth-child(3) .rank { color: #cd7f32; text-shadow: 0 0 10px #cd7f32; }
     text-shadow: 0 0 10px #00eaff;
 }
 
-/* SMALL TOGGLE SWITCH */
+/* TOGGLE SWITCH */
 .toggle-container {
     width: 95%;
     margin: 0 auto 20px auto;
@@ -129,7 +131,10 @@ input:checked + .small-slider:before {
     font-weight: 600;
 }
 
-/* MODAL */
+/* ============================================================
+   MODAL
+============================================================ */
+
 .modal {
     display: none;
     position: fixed;
@@ -141,15 +146,14 @@ input:checked + .small-slider:before {
 
 .modal-content {
     background: #1a1a20;
-    margin: 8% auto;
+    margin: 4% auto;
     padding: 20px;
-    height:400px;
-    width: 250px;
-    max-width: 420px;
+    width: 350px;
+    height: 500px;
     border: 2px solid #00eaff;
     box-shadow: 0 0 20px rgba(0,255,255,0.4);
     border-radius: 6px;
-    position: relative; /* important for scaled content */
+    position: relative;
 }
 
 .close {
@@ -162,131 +166,230 @@ input:checked + .small-slider:before {
     color: #00eaff;
 }
 
-/* W/L DROPDOWN */
+/* ============================================================
+   CARD
+============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+.container {
+    width: 350px;
+    height: 500px;
+    perspective: 1000px;
+    margin: 0 auto;
+}
+
+.card {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    transition: transform 1000ms;
+    transform-style: preserve-3d;
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.front,
+.back {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.front {
+    background-image: url('wings.png');
+    background-size: cover;
+    background-position: center;
+    box-shadow:
+            0 0 40px rgb(9 136 191),
+            0 0 20px rgba(161, 15, 224,0.4)
+}
+
+.back {
+    background-image: url('CDLcardUse.png');
+    background-size: cover;
+    background-position: center;
+    box-shadow:
+            0 0 40px rgb(49 68 127),
+            0 0 20px rgb(22 23 39);
+    opacity: 0;
+    transform: rotateY(180deg);
+    position: relative;
+}
+
+.card.flipped .back {
+    opacity: 1;
+}
+
+/* ============================================================
+   RATING + NAME
+============================================================ */
+
+.date-box {
+    position: absolute;
+    top: 115px;
+    left: 64px;
+    height: 75px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.date-box .rating {
+    font-size: 35px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.name-box {
+    position: absolute;
+    top: 265px;
+    left: 135px;
+    height: 30px;
+    width: 70px;
+    border: 3px solid transparent;
+    border-image: linear-gradient(90deg, #e2e9e8, rgb(184 161 8 / 0.56), rgb(137 190 218)) 1;
+    box-shadow: 0 0 30px rgb(19 103 227), 0 0 40px rgb(30 33 101);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.name-box .name {
+    font-family: "Times New Roman", serif;
+    text-transform: uppercase;
+    color: rgb(239 215 58);
+    white-space: nowrap;
+}
+
+/* ============================================================
+   CENTERED STAT SPANS
+============================================================ */
+
+.back span {
+    position: absolute;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    width: 80px;
+    text-align: center;
+}
+
+.circle-row1 {
+    width: 45px !important;
+    height: 45px !important;
+}
+
+/* ============================================================
+   PERFECT CIRCLES FOR ROW 1
+============================================================ */
+
+.circle-row1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(3px);
+
+    font-size: 20px;
+    font-weight: 900;
+    text-shadow: 0 0 8px rgba(255,255,255,0.4);
+
+    box-shadow:
+            0 0 12px rgba(0, 255, 255, 0.4),
+            0 0 25px rgba(0, 255, 255, 0.25);
+
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Column X positions */
+.col1.row1 { left: 69px; top: 308px; }
+.col2.row1 { left: 150px; top: 315px; }
+.col3.row1 { left: 230px; top: 308px; }
+
+/* ROW 2 – labels (HP / OVL / SND) */
+.col1.row2 { left: 50px; top: 363px; }
+.col2.row2 { left: 130px; top: 374px; }
+.col3.row2 { left: 210px; top: 363px; }
+
+/* ============================================================
+   W/L COLORS
+============================================================ */
+
+.wl-win {
+    color: #00ff00;
+    font-weight: 900;
+}
+
+.wl-loss {
+    color: #ff3c3c;
+    font-weight: 900;
+}
+
+.wl-arrow-up {
+    color: #00ff00;
+}
+
+.wl-arrow-down {
+    color: #ff3c3c;
+}
+
+/* W/L container + dropdown behaviour */
 .wl-container {
     position: relative;
     display: inline-block;
     cursor: pointer;
 }
 
-.wl-arrow {
-    margin-left: 6px;
-    font-size: 10px;
-    color: #00eaff;
-}
-
 .wl-dropdown {
-    display: none;
+    display: none;              /* <- keeps them hidden on render / toggle */
     position: absolute;
-    top: 22px;
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
     background: #111;
     padding: 6px 10px;
     border: 1px solid #00eaff;
-    border-radius: 4px;
-    white-space: nowrap;
-    z-index: 20;
-    box-shadow: 0 0 10px rgba(0,255,255,0.3);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    z-index: 10;
+
 }
 
-.wl-win {
-    color: #7CFF8A;
-    font-weight: 700;
+.wl-dropdown div {
+    display: block;       /* forces W3 and L1 onto their own lines */
+    white-space: nowrap;  /* keeps W 3 together */
+    padding: 2px 0;
 }
 
-.wl-loss {
-    color: #FF6B6B;
-    font-weight: 700;
-}
 
-/* ============================================
-   CDL PLAYER CARD (NEW)
-============================================ */
+/* ============================================================
+   GOLD ELO
+============================================================ */
 
-.cdl-card {
-    background: linear-gradient(145deg, #1a1a20, #0f0f12);
-    border: 2px solid #00eaff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 0 25px rgba(0,255,255,0.25);
-    text-align: center;
-}
-
-.cdl-overall {
-    font-size: 54px;
-    font-weight: 900;
-    color: #00eaff;
-    text-shadow: 0 0 20px rgba(0,255,255,0.7);
-    margin-bottom: 10px;
-}
-
-.cdl-name {
-    font-size: 16px;
+.elo-gold {
+    color: #fafafa; /* clean premium gold */
     font-weight: 800;
-    margin-bottom: 20px;
-    color: #ffffff;
 }
 
-.cdl-mode {
+.player-select-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.team-player {
+    padding: 6px;
     background: #111;
-    border-left: 4px solid #00eaff;
-    padding: 12px;
-    margin-bottom: 14px;
-    border-radius: 6px;
-}
-
-.cdl-mode h3 {
-    margin: 0 0 8px 0;
-    color: #00eaff;
-}
-
-.cdl-rating {
-    font-size: 32px;
-    font-weight: 900;
-    margin-bottom: 6px;
-    color: #ffffff;
-}
-
-.cdl-stat {
-    font-size: 14px;
-    margin: 3px 0;
-    color: #dcdcdc;
-}
-
-.cdl-totals {
-    margin-top: 20px;
-    padding-top: 10px;
-    border-top: 1px solid #00eaff;
-}
-
-.cdl-totals p {
-    margin: 6px 0;
-    font-size: 16px;
-    font-weight: 700;
-}
-
-/* ============================================
-   SHRINK FRONT CONTENT TO FIT CARD
-============================================ */
-
-.card-contents-wrapper {
-    transform: scale(0.55);
-    transform-origin: top left;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.cdl-totals {
-    height: 60px;          /* keep the block visible */
-    border-top: 1px solid #00eaff;
-    margin-top: 25px;
-    padding-top: 10px;
-}
-
-.cdl-totals p {
-    display: none;         /* hide the text only */
+    color: #e6e6e6;
+    border: 1px solid #00eaff;
 }
 
 

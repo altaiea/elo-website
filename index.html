@@ -33,14 +33,68 @@
     <tbody id="table-body"></tbody>
 </table>
 
-<!-- Player Details Modal -->
+
+<h2 style="text-align:center; margin-top:40px;">Teams</h2>
+
+<div id="team-builder" style="width:95%; margin:0 auto; background:#15151a; padding:20px; border:1px solid #222; box-shadow:0 0 25px rgba(0,255,255,0.08);">
+
+    <p>Select 8 players:</p>
+
+    <div class="player-select-grid">
+        <select class="team-player"></select>
+        <select class="team-player"></select>
+        <select class="team-player"></select>
+        <select class="team-player"></select>
+        <select class="team-player"></select>
+        <select class="team-player"></select>
+        <select class="team-player"></select>
+        <select class="team-player"></select>
+    </div>
+
+    <button id="generateTeams" style="margin-top:20px; padding:10px 20px; cursor:pointer;">
+        Generate Balanced Teams
+    </button>
+
+    <div id="teamOutput" style="margin-top:20px; font-size:16px;"></div>
+</div>
+
+
+<!-- Modal -->
 <div id="playerModal" class="modal">
     <div class="modal-content">
         <span id="closeModal" class="close">&times;</span>
 
-        <!-- ⭐ NEW WRAPPER FOR SHRINKING CONTENT ⭐ -->
         <div class="card-contents-wrapper">
-            <div id="cdlCard"></div>
+            <div class="container">
+                <div class="card">
+                    <div class="front"></div>
+
+                    <div class="back">
+
+                        <!-- COLUMN 1 (HP) -->
+                        <span class="col1 row1 circle-row1"></span>
+                        <span class="col1 row2">HP</span>
+
+                        <!-- COLUMN 2 (OVL) -->
+                        <span class="col2 row1 circle-row1"></span>
+                        <span class="col2 row2">OVL</span>
+
+                        <!-- COLUMN 3 (SND) -->
+                        <span class="col3 row1 circle-row1"></span>
+                        <span class="col3 row2">SND</span>
+
+                        <!-- Rating + Name -->
+                        <div class="date-box">
+                            <div class="rating"></div>
+                        </div>
+
+                        <div class="name-box">
+                            <div class="name"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -49,11 +103,6 @@
 <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
 
 
 
